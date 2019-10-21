@@ -1,4 +1,7 @@
 import React, {Component} from 'react';
+import Header from './components/header/Header'
+import Filters from './components/filters/Filters'
+
 import './App.css';
 
 class App extends Component{
@@ -13,7 +16,10 @@ class App extends Component{
 
   render(){
     return(
-      <h1>holaaaa</h1>
+      <fragment>
+        <Header/>
+        <Filters/>
+      </fragment>
     )
   }
 }
