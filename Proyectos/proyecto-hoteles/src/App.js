@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Header from './components/header/Header'
+import Header from './components/header/Headers'
 import Filters from './components/filters/Filters'
 
 import './App.css';
