@@ -1,22 +1,24 @@
-import React, {Component} from 'react';
+import React from 'react';
 
-class Header extends Component{
-    render() {
-        return (
-            <section class="hero is-success">
-                <div class="hero-body">
-                    <div class="container">
-                    <h1 class="title">
-                        Primary title
-                    </h1>
-                    <h2 class="subtitle">
-                        Primary subtitle
-                    </h2>
-                    </div>
+const Header = ({hotels,filters}) =>{
+    
+
+    return (
+        <section class="hero is-success">
+            <div class="hero-body">
+                <div class="container">
+                <h1 class="title">
+                    AirReactBn
+                </h1>
+                <h2 class="subtitle">
+                    Desde  {filters.dateFrom} hasta {filters.dateTo}  {hotels.length ? <p>hay {hotels.length} hoteles</p> : <p>No hay hoteles en esta fecha</p>}
+                </h2>
                 </div>
-            </section>
-        )
-    }
+            </div>
+        </section>
+    )
+        
+    
 }
 
 export default Header;
