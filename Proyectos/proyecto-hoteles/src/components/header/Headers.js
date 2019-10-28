@@ -4,13 +4,13 @@ const Header = ({hotels,filters}) =>{
     
 
     return (
-        <section class="hero is-success">
-            <div class="hero-body">
-                <div class="container">
-                <h1 class="title">
+        <section className="hero is-success">
+            <div className="hero-body">
+                <div className="container">
+                <h1 className="title">
                     AirReactBn
                 </h1>
-                <h2 class="subtitle">
+                <h2 className="subtitle">
                     Desde  {filters.dateFrom} hasta {filters.dateTo}  {hotels.length ? <p>hay {hotels.length} hoteles</p> : <p>No hay hoteles en esta fecha</p>}
                 </h2>
                 </div>

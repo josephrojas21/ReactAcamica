@@ -1,7 +1,8 @@
-import React, {Component} from 'react';
+import React, {Component,Fragment} from 'react';
 import Header from './components/header/Headers'
 import Filters from './components/filters/Filters'
 import DataHotels from './services/dataHotels'
+import Hotels from './components/hotels/Hotels'
 
 import './App.css';
 import Moment from 'moment';
@@ -52,13 +53,22 @@ class App extends Component{
   }
 
   render(){
+    console.log(this.state.hotelsFilters);
+    
     return(
-      <fragment>
+      <Fragment>
         <Header hotels={this.state.hotelsFilters} filters={this.state.filters} onFilterChange={this.handleFilterChange}/>
         <Filters filters={this.state.filters} onFilterChange={this.handleFilterChange}/>
+        
+        <section className="section" >
+          <div className="container">
+            <div className="columns is-multiline">
+              {this.state.hotelsFilters.map(hotel => <Hotels {...hotel} key={hotel.slug}/>)}
+            </div>
+          </div>
+        </section>
         {/* {this.state.hotelsLoaded ? <Hotel /> : <div>NO SE ENCONTRO HOTELES</div> } */}
-
-      </fragment>
+      </Fragment>
     )
   }
 }

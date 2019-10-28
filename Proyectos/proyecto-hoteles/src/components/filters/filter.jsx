@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 
 const  Filter = (props) => {
-    const { date, icon, name, isDate,onDateChange } = props
-
+    const { date, icon, name, isDate,onDateChange,options,selected,onOptionChange } = props
+    //console.log(options);
+    
     return (
-        <fragment>
+        <Fragment>
             { isDate ? 
                 <div className="field is-horizontal">
                     <div className="field-body">
@@ -18,15 +19,18 @@ const  Filter = (props) => {
                         </div>
                     </div>
                 </div> :
-                <div class="control">
-                    <div class="select">
-                        <select>
-                            <option>Select dropdown</option>
-                            <option>With options</option>
+                <div className="control">
+                    <div className="select">
+                        <select name={name} onChange={onOptionChange} selected={selected}>
+                            {
+                                options.map(option=>{
+                                return <option key={option.value}>{option.name}</option>
+                                })
+                            }
                         </select>
                     </div>
                 </div>  }
-        </fragment>
+        </Fragment>
     )
     
 }
