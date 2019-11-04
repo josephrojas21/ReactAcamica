@@ -65,7 +65,7 @@ class Filters extends Component{
                         <div className="column">
                             <Filter 
                             isDate = {false}
-                            options={[{value: 'select', name: 'Cualquier precio'},{value: 1 , name: '$'}, {value: 2, name: '$$'}, {value: 3, name: '$$$'}]}
+                            options={[{value: 'select', name: 'Cualquier precio'},{value: "1" , name:'$' }, {value: "2", name: '$$'}, {value: "3", name: '$$$'}]}
                             selected={filters.price}
                             name="price"
                             onOptionChange={this.handleOptionChange}/>

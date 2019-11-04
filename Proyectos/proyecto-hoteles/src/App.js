@@ -2,7 +2,7 @@ import React, {Component,Fragment} from 'react';
 import Header from './components/header/Headers'
 import Filters from './components/filters/Filters'
 import DataHotels from './services/dataHotels'
-import Hotels from './components/hotels/Hotels'
+import Hotels from './components/hotels/hotels.js'
 
 import './App.css';
 import Moment from 'moment';
@@ -15,7 +15,7 @@ class App extends Component{
     const dateFormat = Moment(date).format("YYYY-MM-DD");
     const nextDateFormat = Moment(date).add(1,'month').format("YYYY-MM-DD");
     this.state = {
-      getData: true,
+      getData: false,
       hotels: [],
       hotelsFilters: [],
       filters:{
@@ -45,28 +45,32 @@ class App extends Component{
       this.setState({
         hotels: hotels, 
         hotelsFilters: hotels, 
-        getData: false
+        getData: true
       }) 
     });
-      
     
   }
 
   render(){
-    console.log(this.state.hotelsFilters);
+    const {getData,hotelsFilters, filters } = this.state
     
     return(
       <Fragment>
-        <Header hotels={this.state.hotelsFilters} filters={this.state.filters} onFilterChange={this.handleFilterChange}/>
-        <Filters filters={this.state.filters} onFilterChange={this.handleFilterChange}/>
-        
-        <section className="section" >
+        <Header hotels={hotelsFilters} filters={filters} onFilterChange={this.handleFilterChange}/>
+        <Filters filters={filters} onFilterChange={this.handleFilterChange}/>
+        <section className="section" style={ {marginTop: '1em'} }>
           <div className="container">
-            <div className="columns is-multiline">
-              {this.state.hotelsFilters.map(hotel => <Hotels {...hotel} key={hotel.slug}/>)}
-            </div>
+              <div className="columns is-multiline">
+                {getData ? 
+                    <Hotels   hotels={hotelsFilters} />
+                  :
+                  <div>
+                    <h1>No hay hoteles disponibles</h1>
+                  </div>
+                }
+              </div>
           </div>
-        </section>
+         </section>
         {/* {this.state.hotelsLoaded ? <Hotel /> : <div>NO SE ENCONTRO HOTELES</div> } */}
       </Fragment>
     )

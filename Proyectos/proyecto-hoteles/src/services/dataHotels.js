@@ -28,6 +28,9 @@ class DataHotels{
             && hotel.price === (price !== 'select' ? parseInt(price) : hotel.price)
             && hotel.country.trim().toLowerCase() === (country !== 'select' ? country.trim().toLowerCase() : hotel.country.trim().toLowerCase())
         })
+        
+        
+        
     }
 }
 
