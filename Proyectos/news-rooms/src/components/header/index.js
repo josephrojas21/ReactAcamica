@@ -1,19 +1,22 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom'
+import React from 'react';
+import { Link,useHistory } from 'react-router-dom'
 
-export default class Header extends Component {
-    render() {
-        const {nombre,handleOnClick} = this.props
-        return (
-            <div>
-               <h1>hola {nombre}</h1>
-               <button name={1} onClick={handleOnClick}> <Link to='/news/category/politica'>Politica</Link></button>
-               <button name={2} onClick={handleOnClick}>Internacional</button>
-               <button name={3} onClick={handleOnClick}>Tecnologia</button>
-               <button name={4} onClick={handleOnClick}>Espectaculos</button>
-               <button name={5} onClick={handleOnClick}>Deportes</button>
+ const Header = (props) => {
 
-            </div>
-        )
-    }
+    const {nombre,handleOnClick,handleOnkey} = props;
+
+    return (
+        <div>
+            <h1>Proyecto News Room {nombre}</h1>
+            <button name={1} onClick={handleOnClick}><Link name={1} to='/news/category/politica'>Politica</Link></button>
+            <button name={2} onClick={handleOnClick}><Link name={2} to='/news/category/internacional'>Internacional</Link></button>
+            <button name={3} onClick={handleOnClick}><Link name={3} to='/news/category/tecnologia'>Tecnologia</Link></button>
+            <button name={4} onClick={handleOnClick}><Link name={4} to='/news/category/espectaculos'>Espectaculos</Link></button>
+            <button name={5} onClick={handleOnClick}><Link name={5} to='/news/category/deportes'>Deportes</Link></button>
+            <input type="search" onKeyUp={handleOnkey}></input>
+        </div>
+    )
+
 }
+
+export default Header

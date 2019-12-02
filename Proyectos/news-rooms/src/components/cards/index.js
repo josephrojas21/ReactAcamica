@@ -1,14 +1,18 @@
-import React, { Component } from 'react'
+import React from 'react'
 
-export default class Cards extends Component {
+ const Cards = (props) => {
 
-    render() {
-        const {nombre} = this.props
-        
-        return (
-            <div>
-                <h1>hola desde Cards {nombre}</h1>
-            </div>
-        )
-    }
+    return (
+        <div>
+            {props.dataNews.map((data,index) =>{
+                return(
+                    <div key={index}>
+                        <p>{data.title}</p>
+                    </div>
+                ) 
+            })}
+        </div>
+    )
 }
+
+export default Cards;
