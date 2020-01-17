@@ -1,55 +1,39 @@
 import React,{ useState, useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {  BrowserRouter as Router,Switch, Route,    } from 'react-router-dom';
+import {  BrowserRouter as Router,Switch, Route, Redirect   } from 'react-router-dom';
 import {Container,Pagination } from 'react-bootstrap'
-//import {useHistory} from 'react-router';
+import {useHistory} from 'react-router';
 import Header from './components/header/index'
 import Cards from './components/cards/index'
 import DataNews from './services/dataNews'
 import './App.css';
 
-const App = (props) =>  {
+const App = () =>  {
 
+  const basename = process.env.NODE_ENV === "production" ? "/news-rooms" : "";
   const [news, setNews] = useState([]);
   const [loader, setLoader] = useState(true);
   //paginator
   const [currentPage, setCurrentPage] = useState(1);
   const [newsPerPage,setNewsPerPage] = useState(15);
-
   const indexOfLastNews = currentPage * newsPerPage;
   const indexOfFirstNews = indexOfLastNews - newsPerPage;
   const currentNews = news.slice(indexOfFirstNews, indexOfLastNews);
   const paginate = (pageNumber) => setCurrentPage(pageNumber)
-  const pages = Math.ceil(news.length / newsPerPage);
-  const pageNumbers = [];
-  let firstIndex = currentPage - 2 >= 1 ? currentPage - 2 : 1;
-  let lastIndex = firstIndex + 4 < pages ? firstIndex + 4 : pages - 1;
-  firstIndex = lastIndex === pages - 1 ? lastIndex - 4 : firstIndex;
-  firstIndex = firstIndex < 1 ? 1 : firstIndex;
+  const pages = Math.ceil(news.length / newsPerPage);    
 
-  for (let i = firstIndex; i <= lastIndex; i++) {
-      pageNumbers.push(<Pagination.Item disabled={currentPage !== i? false:true} key={i} onClick={() => paginate(i)} >
-        {i}
-      </Pagination.Item>);
-  }
-  const Paginator = (
-      <Pagination>
-        <Pagination.First onClick={() => paginate(1)} />
-        <Pagination.Prev disabled={currentPage === 1} onClick={() => setCurrentPage(currentPage-1)} />
-        {pageNumbers}
-        <Pagination.Next disabled={currentPage === pages - 1 } onClick={() => setCurrentPage(currentPage+1)} />
-        <Pagination.Last onClick={() => paginate(pages-1)} />
-      </Pagination>
-  ) 
- 
   useEffect(() => {
+    getNews()
+  }, []);
+
+  const getNews =() =>{
     DataNews.getData().then(res =>{
       setNews(res.data);
       setLoader(false);     
     }).catch( error => {
       console.log(error); 
     })
-  }, []);
+  }
 
   const handleOnClick = event =>{
     setLoader(true);
@@ -62,31 +46,42 @@ const App = (props) =>  {
     })
   }
 
-  const handleOnkey = event =>{
-    const{value} = event.target;
-    
-    if(event.key === 'Enter'){
-      console.log(value);
+  const [searchValue,setSearchValue] = useState("")
+
+  const handleChange = (e) =>{
+      const {value} = e.target;
+      setSearchValue(value)
+  }
+
+  let history = useHistory();
+
+  const handleOnkey = () =>{
+      console.log(searchValue);
+      history.push(`/search/${searchValue}`);
       setLoader(true);
-      DataNews.getDataQuery(value).then(res =>{
+      DataNews.getDataQuery(searchValue).then(res =>{
         setNews(res.data);
       setLoader(false);
       }).catch(error =>{
         console.log(error);
       })
-    }
   }
 
 
     return (
-      <Router >
+      <Router basename={basename}>
         <div className="App">
-          <Header  handleOnClick={handleOnClick} handleOnkey={handleOnkey}/>
+          <Header  
+            handleOnClick={handleOnClick} 
+            handleOnkey={handleOnkey} 
+            handleChange={handleChange}
+            getNews={getNews}/>
           <Container>
               <Switch>
-                <Route exact path="/" component={() => {return <Cards  dataNews={currentNews} loader={loader} paginator={Paginator}/> }}/>
-                <Route  path="/news/category/:categoryId" component={() => {return <Cards  dataNews={currentNews} loader={loader}  paginator={Paginator}/> }}/>
-                <Route  path="/search/:query" component={() => {return <Cards  dataNews={currentNews} loader={loader}  paginator={Paginator}/> }}/>
+                <Route exact path="/" component={() => {return <Cards  dataNews={currentNews} loader={loader} paginate={paginate} currentPage={currentPage} pages={pages}/> }}/>
+                <Route  path="/news/category/:categoryId" component={() => {return <Cards  dataNews={currentNews} loader={loader}  paginate={paginate} currentPage={currentPage} pages={pages}/> }}/>
+                <Route  path="/search/:query" component={() => {return <Cards  dataNews={currentNews} loader={loader}  paginate={paginate} currentPage={currentPage} pages={pages}/> }}/>
+                <Redirect to="/" />
               </Switch>
           </Container>
         </div>

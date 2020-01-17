@@ -27,6 +27,8 @@ class DataNews {
     }
 
     static async getDataQuery(searchValue){
+        console.log(searchValue);
+        
         try { 
             const response = await axios.get(`${BASE_URL}/search/${searchValue}`);
 
