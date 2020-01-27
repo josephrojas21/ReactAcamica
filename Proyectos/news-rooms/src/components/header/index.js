@@ -3,6 +3,8 @@ import { Link,withRouter } from 'react-router-dom'
 import {Navbar,Nav,Button,Form ,FormControl} from 'react-bootstrap'
 
  const Header = ({handleOnClick,handleOnkey,handleChange,getNews}) => {
+
+    
     
     return (
       <>

@@ -1,4 +1,4 @@
-import ApiService from "./../../../services/getData";
+import productsService from "./../../../services/getData";
 import { setProducts, setError, setFetching } from "../actions/productActions";
 import { actionTypes } from "../types/productTypes";
 
@@ -12,7 +12,7 @@ const initialState = {
 //action creator
 const getProducts = () => dispatch => {
   dispatch(setFetching());
-  return ApiService.getProducts()
+  return productsService.getProducts()
     .then(response => {
       dispatch(setProducts(response));
       return response;
