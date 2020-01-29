@@ -1,10 +1,9 @@
 import React from "react";
 import { getProducts } from "../ducks/products/reducers/productReducer";
 import { ProductCard } from "../components/productCard";
-
-import { Container, Content } from "../styles/styledGrid";
-import { DesktopNavbar } from "../components/desktopNavbar";
-import { StyledSidenav } from "../styles/styledSidenav";
+import  DesktopNavbar  from "../components/desktopNavbar";
+import { Container } from '@material-ui/core';
+// import { StyledSidenav } from "../styles/styledSidenav";
 
 const Home = props => {
 
@@ -13,13 +12,10 @@ const Home = props => {
     <>
       <title>Rewards Store</title>
       <DesktopNavbar />
-      <Container>
-        <StyledSidenav />
-        <Content>
-          {props.products.map(product => (
-            <ProductCard key={product._id} product={product} />
-          ))}
-        </Content>
+      <Container maxWidth="xl">
+        {props.products.map(product => (
+              <ProductCard key={product._id} product={product} />
+            ))}
       </Container>
     </>
   )
