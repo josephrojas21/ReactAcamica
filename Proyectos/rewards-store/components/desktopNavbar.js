@@ -12,8 +12,10 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
-import NotificationsIcon from '@material-ui/icons/Notifications';
+import HistoryIcon from '@material-ui/icons/History';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import ModalHistory from './modalHistory'
+
 
 const useStyles = makeStyles(theme => ({
   grow: {
@@ -27,6 +29,7 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.up('sm')]: {
       display: 'block',
     },
+    marginLeft: "10px",
   },
   search: {
     position: 'relative',
@@ -77,13 +80,23 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const DesktopNavbar = () => {
+const DesktopNavbar = ({user}) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const [open,setOpen]  = React.useState(false)
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  const handleOpen = () => {
+    setOpen(!open);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
 
   const handleProfileMenuOpen = event => {
     setAnchorEl(event.currentTarget);
@@ -129,21 +142,11 @@ const DesktopNavbar = () => {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
-        <IconButton aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="secondary">
-            <MailIcon />
-          </Badge>
+      <MenuItem  >
+        <IconButton color="inherit">
+          <HistoryIcon />
         </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton aria-label="show 11 new notifications" color="inherit">
-          <Badge badgeContent={11} color="secondary">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
+        <p>History</p>
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
@@ -163,16 +166,8 @@ const DesktopNavbar = () => {
     <div className={classes.grow}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="open drawer"
-          >
-            <MenuIcon />
-          </IconButton>
           <Typography className={classes.title} variant="h6" noWrap>
-            Material-UI
+            Rewards Store
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -189,15 +184,8 @@ const DesktopNavbar = () => {
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <IconButton aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            <IconButton aria-label="show 17 new notifications" color="inherit">
-              <Badge badgeContent={17} color="secondary">
-                <NotificationsIcon />
-              </Badge>
+            <IconButton onClick={handleOpen} aria-label="show 17 new notifications" color="inherit">
+                <HistoryIcon />
             </IconButton>
             <IconButton
               edge="end"
@@ -209,6 +197,10 @@ const DesktopNavbar = () => {
             >
               <AccountCircle />
             </IconButton>
+            <Typography className={classes.title } variant="h6" noWrap>
+              {user.name}<br/>
+              {`Points: ${user.points}`}
+            </Typography>
           </div>
           <div className={classes.sectionMobile}>
             <IconButton
@@ -225,6 +217,7 @@ const DesktopNavbar = () => {
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
+      <ModalHistory isOpen={open} handleClose={handleClose} user={user}/>
     </div>
   );
 }

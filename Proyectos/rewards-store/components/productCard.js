@@ -1,21 +1,26 @@
 import { Card, CardTitle, CardFront } from "../styles/styledGrid";
+import Link from 'next/link'
 import React, { useState } from "react";
 
 export const ProductCard = props => {
-  const { product } = props;
+  const { product,handleClick } = props;
 
-  console.log(props);
+
+ 
   return (
-    <Card>
-      <CardFront>
-        <CardTitle>
-          <div>{product.name}</div>
-        </CardTitle>
+    <Link href={`/productDetail?title=${product._id}`}>
+      <Card >
+        <CardFront>
+          <CardTitle>
+            <div>{product.name}</div>
+          </CardTitle>
 
-        <img src={product.img.url}></img>
-        <div>{product.cost}</div>
-        <div>{product.category}</div>
-      </CardFront>
-    </Card>
+          <img src={product.img.url}></img>
+          <div>{product.cost}</div>
+          <div>{product.category}</div>
+        </CardFront>
+      </Card>
+    </Link>
+    
   );
 };
