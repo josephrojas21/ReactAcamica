@@ -14,7 +14,9 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import HistoryIcon from '@material-ui/icons/History';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import AddIcon from '@material-ui/icons/Add';
 import ModalHistory from './modalHistory'
+
 
 
 const useStyles = makeStyles(theme => ({
@@ -80,7 +82,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const DesktopNavbar = ({user}) => {
+const DesktopNavbar = ({user,handleOnChange}) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -180,6 +182,7 @@ const DesktopNavbar = ({user}) => {
                 input: classes.inputInput,
               }}
               inputProps={{ 'aria-label': 'search' }}
+              onChange={handleOnChange}
             />
           </div>
           <div className={classes.grow} />
@@ -195,7 +198,7 @@ const DesktopNavbar = ({user}) => {
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-              <AccountCircle />
+              <AddIcon />
             </IconButton>
             <Typography className={classes.title } variant="h6" noWrap>
               {user.name}<br/>
