@@ -9,12 +9,14 @@ import { Container } from '@material-ui/core';
 const Home = props => {
 
   const [products,setProducts] =  useState(props.products)
+  const productsFilter = props.products
 
   
   const handleOnChange = (e) =>{
     const {value} = e.target;
+    const data = productsFilter
 
-    const newData = products.filter(
+    const newData = data.filter(
       el => el.name.toLowerCase().indexOf(value.toLowerCase()) > -1
     );
     
@@ -26,7 +28,7 @@ const Home = props => {
     <>
       <title>Rewards Store</title>
       <DesktopNavbar {...props} handleOnChange={handleOnChange} />
-      <Container maxWidth="xl">
+      <Container >
         {products.map(product => (
               <ProductCard key={product._id} product={product} />
             ))}

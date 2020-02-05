@@ -5,17 +5,15 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
-import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
 import HistoryIcon from '@material-ui/icons/History';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import AddIcon from '@material-ui/icons/Add';
 import ModalHistory from './modalHistory'
+import productsService from './../services/getData'
 
 
 
@@ -84,11 +82,10 @@ const useStyles = makeStyles(theme => ({
 
 const DesktopNavbar = ({user,handleOnChange}) => {
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const [open,setOpen]  = React.useState(false)
+  const [open,setOpen]  = React.useState(false);
+  const [points, setPoints] = React.useState(user.points)
 
-  const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const handleOpen = () => {
@@ -99,18 +96,17 @@ const DesktopNavbar = ({user,handleOnChange}) => {
     setOpen(false);
   };
 
+  const handleAddPoints = () =>{
+    productsService.addpoints(1000)
+      .then(res => {
+        console.log(res["New Points"]);
+        setPoints(res["New Points"])
+      });
 
-  const handleProfileMenuOpen = event => {
-    setAnchorEl(event.currentTarget);
-  };
+  }
 
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-    handleMobileMenuClose();
   };
 
   const handleMobileMenuOpen = event => {
@@ -118,20 +114,6 @@ const DesktopNavbar = ({user,handleOnChange}) => {
   };
 
   const menuId = 'primary-search-account-menu';
-  const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-    </Menu>
-  );
 
   const mobileMenuId = 'primary-search-account-menu-mobile';
   const renderMobileMenu = (
@@ -150,16 +132,16 @@ const DesktopNavbar = ({user,handleOnChange}) => {
         </IconButton>
         <p>History</p>
       </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
+      <MenuItem >
         <IconButton
           aria-label="account of current user"
           aria-controls="primary-search-account-menu"
           aria-haspopup="true"
           color="inherit"
         >
-          <AccountCircle />
+          <AddIcon />
         </IconButton>
-        <p>Profile</p>
+        <p>Add points</p>
       </MenuItem>
     </Menu>
   );
@@ -195,14 +177,14 @@ const DesktopNavbar = ({user,handleOnChange}) => {
               aria-label="account of current user"
               aria-controls={menuId}
               aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
+              onClick={handleAddPoints}
               color="inherit"
             >
               <AddIcon />
             </IconButton>
             <Typography className={classes.title } variant="h6" noWrap>
               {user.name}<br/>
-              {`Points: ${user.points}`}
+              {`Points: ${points}`}
             </Typography>
           </div>
           <div className={classes.sectionMobile}>
@@ -219,7 +201,6 @@ const DesktopNavbar = ({user,handleOnChange}) => {
         </Toolbar>
       </AppBar>
       {renderMobileMenu}
-      {renderMenu}
       <ModalHistory isOpen={open} handleClose={handleClose} user={user}/>
     </div>
   );

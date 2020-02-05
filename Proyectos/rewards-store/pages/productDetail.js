@@ -1,29 +1,63 @@
 import React from 'react'
-import Link from 'next/link';
+import { Container, Card, CardActionArea, CardActions, CardContent, CardMedia, Button, Typography} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import  DesktopNavbar  from "../components/desktopNavbar";
 import { getProducts } from "../ducks/reducers/productReducer";
 import { getUser } from "../ducks/reducers/userReducer";
+import { withRouter } from 'next/router'
 
+const useStyles = makeStyles({
+  root: {
+    maxWidth: 570,
+    marginTop: 100,
+    marginLeft: '25%',
+    //border:  '1px solid black',
+    borderRadius: '10 px',
 
-const PostLink = props => (
-    <li>
-      <Link href={`/productDetail?title=${props.title}`}>
-        <a>{props.title}</a>
-      </Link>
-    </li>
-  );
+  },
+});
+
 
 const productDetail = (props) => {
+  const classes = useStyles();
+
+  const product = props.products.find( product => product._id === props.router.query.title );
+  console.log(product);
+
+  
     return (
+      <>
+        <title>Rewards Store</title>
         <div>
-            <DesktopNavbar {...props} />
-             <h1>My Blog</h1>
-        <ul>
-            <PostLink title="Hello Next.js" />
-            <PostLink title="Learn Next.js is awesome" />
-            <PostLink title="Deploy apps with Zeit" />
-        </ul>
+          <DesktopNavbar {...props} />
+          <Container fixed>
+            <Card className={classes.root}>
+                <CardMedia
+                  component="img"
+                  height="250"
+                  image={product.img.url}
+                  title={product.name}
+                />
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="h2">
+                    {product.name}
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary" component="p">
+                    {product.category}
+                  </Typography>
+                </CardContent>
+              <CardActions>
+                <Button size="small" color="primary">
+                  {`Price:${product.cost}`}
+                </Button>
+                <Button size="small" color="primary">
+                  Purchase
+                </Button>
+              </CardActions>
+            </Card>
+          </Container>
         </div>
+      </>
     )
 }
 
@@ -34,4 +68,4 @@ productDetail.getInitialProps = async ({ reduxStore }) => {
     return { products, user };
   };
 
-export default productDetail
+export default withRouter(productDetail)
