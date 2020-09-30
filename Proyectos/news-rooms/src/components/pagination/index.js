@@ -16,7 +16,7 @@ const Paginator = ({pages,paginate,currentPage}) => {
     }
 
     return(
-        <Pagination>
+      <Pagination>
         <Pagination.First onClick={() => paginate(1)} />
         <Pagination.Prev disabled={currentPage === 1} onClick={() => paginate(currentPage-1)} />
         {pageNumbers}

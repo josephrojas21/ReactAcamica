@@ -53,11 +53,11 @@ const App = () =>  {
       setSearchValue(value)
   }
 
-  let history = useHistory();
+
 
   const handleOnkey = () =>{
       console.log(searchValue);
-      history.push(`/search/${searchValue}`);
+      // history.push(`/search/${searchValue}`);
       setLoader(true);
       DataNews.getDataQuery(searchValue).then(res =>{
         setNews(res.data);
